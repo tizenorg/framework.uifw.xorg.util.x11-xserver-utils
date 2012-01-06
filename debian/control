@@ -1,0 +1,64 @@
+Source: x11-xserver-utils
+Section: x11
+Priority: optional
+Maintainer: Sung-Jin Park <sj76.park@samsung.com>, Sangjin Lee <lsj119@samsung.com>, Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+#XSBC-Original-Maintainer: Debian X Strike Force <debian-x@lists.debian.org>
+Uploaders: SooChan Lim <sc1.lim@samung.com>, Sung-Jin Park <sj76.park@samsung.com>, David Nusinow <dnusinow@debian.org>, Brice Goglin <bgoglin@debian.org>, Cyril Brulebois <kibi@debian.org>
+Build-Depends: debhelper (>= 5.0.0), pkg-config, libx11-dev (>= 2:1.0.0),
+ libxaw7-dev (>= 1:1.0.1), libxext-dev (>= 1:1.0.0),
+ libxi-dev (>= 1:1.0.0-3), libxmuu-dev (>= 1:1.0.1),
+ libxrandr-dev (>= 2:1.2.99.3), libxt-dev (>= 1:1.0.0),
+ libxxf86vm-dev (>= 1:1.0.0), xbitmaps, quilt,
+ x11proto-input-dev (>= 1.4), libxcursor-dev, x11-common, xutils-dev (>= 1:7.5-1slp2+1)
+# Reasons for build-depends:
+# debhelper for the packaging, pkg-config needed by configure scripts
+# Individual apps:
+# iceauth: x11proto-core-dev, libice-dev
+# xcmsdb: libx11-dev
+# xgamma: libx11-dev, libxxf86vm-dev
+# xhost: libx11-dev, libxmuu-dev, libxau-dev
+# xmodmap: libx11-dev
+# xrandr: libxrandr-dev (>= 2:1.2.0), libxrender, libx11
+# xrdb: libxmuu-dev, libx11-dev
+# xrefresh: libx11-dev
+# xset: libxmuu-dev, libx11-dev, libxext-dev,
+#       (libxxf86misc-dev), (libxfontcache-dev)
+# xsetmode: libxi-dev, libx11-dev
+# xsetpointer: libxi-dev, libx11-dev, x11proto-input-dev (>= 1.4)
+# xsetroot: libxmuu-dev, libx11-dev, xbitmaps
+# xstdcmap: libxmu-dev, libx11-dev
+# xvidtune: libxaw7-dev, libxxf86vm-dev, libxt-dev
+Standards-Version: 3.8.2
+Vcs-Git: git://git.debian.org/git/pkg-xorg/app/x11-xserver-utils
+Vcs-Browser: http://git.debian.org/?p=pkg-xorg/app/x11-xserver-utils.git
+
+Package: x11-xserver-utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+#Depends: ${shlibs:Depends}, ${misc:Depends}, cpp
+Conflicts: iceauth, sessreg, xgamma, xhost, xmodmap, xrandr, xrdb, xrefresh, xrgb, xset, xsetmode, xsetpointer, xsetroot, xstdcmap, xvidtune
+Replaces: xbase-clients (<< 1:7.3), xutils (<< 1:7.2), iceauth, sessreg, xgamma, xhost, xmodmap, xrandr, xrdb, xrefresh, xrgb, xset, xsetmode, xsetpointer, xsetroot, xstdcmap, xvidtune
+Suggests: nickle, cairo-5c, xorg-docs-core
+Description: X server utilities
+ An X client is a program that interfaces with an X server (almost always via
+ the X libraries), and thus with some input and output hardware like a
+ graphics card, monitor, keyboard, and pointing device (such as a mouse).
+ .
+ This package provides a miscellaneous assortment of X Server utilities
+ that ship with the X Window System, including:
+  - iceauth, a tool for manipulating ICE protocol authorization records;
+  - rgb;
+  - sessreg, a simple program for managing utmp/wtmp entries;
+  - xcmsdb, a device color characteristic utility for the X Color Management
+    System;
+  - xgamma, a tool for querying and setting a monitor's gamma correction;
+  - xhost, a very dangerous program that you should never use;
+  - xmodmap, a utility for modifying keymaps and pointer button mappings in X;
+  - xrandr, a command-line interface to the RandR extension;
+  - xrdb, a tool to manage the X server resource database;
+  - xrefresh, a tool that forces a redraw of the X screen;
+  - xset, a tool for setting miscellaneous X server parameters;
+  - xsetmode and xsetpointer, tools for handling X Input devices;
+  - xsetroot, a tool for tailoring the appearance of the root window;
+  - xstdcmap, a utility to selectively define standard colormap properties;
+  - xvidtune, a tool for customizing X server modelines for your monitor.
