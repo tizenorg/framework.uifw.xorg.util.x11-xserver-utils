@@ -66,7 +66,6 @@ Provides: %{DEF_SUBDIRS}
 }
 
 %install
-rm -rf $RPM_BUILD_ROOT
 # Install all apps
 {
    for app in %{DEF_SUBDIRS} ; do
@@ -76,10 +75,7 @@ rm -rf $RPM_BUILD_ROOT
    done
 }
 
-%remove_docs
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+%docs_package
 
 %files
 %{_bindir}/*
