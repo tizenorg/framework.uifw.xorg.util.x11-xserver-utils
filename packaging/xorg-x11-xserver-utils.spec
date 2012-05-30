@@ -6,6 +6,7 @@ License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
 Source: %{name}-%{version}.tar.gz
+Source1001: packaging/xorg-x11-xserver-utils.manifest 
 
 BuildRequires: pkgconfig(xorg-macros)
 BuildRequires: pkgconfig(x11)
@@ -52,6 +53,7 @@ Provides: %{DEF_SUBDIRS}
 %setup -q
 
 %build
+cp %{SOURCE1001} .
 # Build all apps
 {
     for app in %{DEF_SUBDIRS}; do
@@ -78,6 +80,7 @@ Provides: %{DEF_SUBDIRS}
 %docs_package
 
 %files
+%manifest xorg-x11-xserver-utils.manifest
 %{_bindir}/*
 /etc/X11/app-defaults/*
 /usr/share/X11/rgb.txt
