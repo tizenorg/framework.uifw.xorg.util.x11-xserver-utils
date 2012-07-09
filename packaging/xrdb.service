@@ -1,0 +1,13 @@
+[Unit]
+Description=Load X Resource database
+ConditionFileExists=/etc/X11/Xresources
+After=xorg.target
+Requires=xorg.target
+Before=e17.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/xrdb -load -nocpp /etc/X11/Xresources
+
+[Install]
+WantedBy=core-efl.target

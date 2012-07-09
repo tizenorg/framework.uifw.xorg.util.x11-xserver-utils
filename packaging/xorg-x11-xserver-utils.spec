@@ -5,7 +5,9 @@ Release: 2
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
-Source: %{name}-%{version}.tar.gz
+Source0: %{name}-%{version}.tar.gz
+Source1: xmodmap.service
+Source2: xrdb.service
 Source1001: packaging/xorg-x11-xserver-utils.manifest 
 
 BuildRequires: pkgconfig(xorg-macros)
@@ -77,10 +79,21 @@ cp %{SOURCE1001} .
    done
 }
 
+mkdir -p %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants
+install -m 0644 %SOURCE1 %{buildroot}%{_libdir}/systemd/user/
+install -m 0644 %SOURCE2 %{buildroot}%{_libdir}/systemd/user/
+ln -s ../xmodmap.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xmodmap.service
+ln -s ../xrdb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
+
+
 %docs_package
 
 %files
 %manifest xorg-x11-xserver-utils.manifest
 %{_bindir}/*
-/etc/X11/app-defaults/*
-/usr/share/X11/rgb.txt
+%{_sysconfdir}/X11/app-defaults/*
+%{_libdir}/systemd/user/xmodmap.service
+%{_libdir}/systemd/user/xrdb.service
+%{_libdir}/systemd/user/core-efl.target.wants/xmodmap.service
+%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
+%{_datadir}/X11/rgb.txt

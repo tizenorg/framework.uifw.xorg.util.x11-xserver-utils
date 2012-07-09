@@ -1,0 +1,14 @@
+* Mon Jul 09 2012 Patrick McCarty <patrick.mccarty@linux.intel.com> 39759d4
+- Add systemd user-session service files for xrdb and xmodmap
+
+* Tue May 29 2012 Ryan Ware <ryan.r.ware@intel.com> 2d1a693
+- Add default Smack manifest for xorg-x11-xserver-utils.spec
+
+* Tue Mar 13 2012 Yan Yin <yan.yin@intel.com> db7a819
+- update for beta universally
+
+* Fri Jan 06 2012 Kibum Kim <kb0929.kim@samsung.com> 5f41889
+- Git init
+[ Eunkyoung Kim ]
+- Initial empty repository
+

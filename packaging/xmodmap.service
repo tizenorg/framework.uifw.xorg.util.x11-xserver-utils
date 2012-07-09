@@ -1,0 +1,13 @@
+[Unit]
+Description=Load X keyboard modifier maps
+ConditionFileExists=/etc/X11/Xmodmap
+After=xorg.target
+Requires=xorg.target
+Before=e17.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/xmodmap /etc/X11/Xmodmap
+
+[Install]
+WantedBy=core-efl.target
