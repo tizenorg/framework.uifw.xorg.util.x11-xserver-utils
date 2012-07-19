@@ -1,0 +1,17 @@
+[Unit]
+Description=Turn off AutoRepeat for specific device keys
+After=xorg.target
+Requires=xorg.target
+Before=e17.service
+
+[Service]
+Type=oneshot
+# Keycodes:
+# 122 = XF86AudioLowerVolume
+# 123 = XF86AudioRaiseVolume
+# 124 = XF86PowerOff
+# 147 = XF86Phone
+ExecStart=/usr/bin/xset -r 122 -r 123 -r 124 -r 147
+
+[Install]
+WantedBy=core-efl.target

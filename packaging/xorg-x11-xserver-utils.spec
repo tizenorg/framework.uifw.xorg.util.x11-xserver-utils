@@ -8,6 +8,7 @@ URL: http://www.x.org
 Source0: %{name}-%{version}.tar.gz
 Source1: xmodmap.service
 Source2: xrdb.service
+Source3: xset-autorepeat-lb.service
 Source1001: packaging/xorg-x11-xserver-utils.manifest 
 
 BuildRequires: pkgconfig(xorg-macros)
@@ -51,6 +52,16 @@ Provides: %{DEF_SUBDIRS}
   - xstdcmap, a utility to selectively define standard colormap properties;
   - xvidtune, a tool for customizing X server modelines for your monitor.
 
+%package lb
+Summary:        Device-specific files for Lunchbox
+Group:          User Interface/X
+Requires:       %{name} = %{version}
+
+%description lb
+This package provides files for the X server utilities package that are
+specific to Lunchbox devices.
+
+
 %prep
 %setup -q
 
@@ -82,8 +93,10 @@ cp %{SOURCE1001} .
 mkdir -p %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants
 install -m 0644 %SOURCE1 %{buildroot}%{_libdir}/systemd/user/
 install -m 0644 %SOURCE2 %{buildroot}%{_libdir}/systemd/user/
+install -m 0644 %SOURCE3 %{buildroot}%{_libdir}/systemd/user/
 ln -s ../xmodmap.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xmodmap.service
 ln -s ../xrdb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
+ln -s ../xset-autorepeat-lb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-lb.service
 
 
 %docs_package
@@ -97,3 +110,8 @@ ln -s ../xrdb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/
 %{_libdir}/systemd/user/core-efl.target.wants/xmodmap.service
 %{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
 %{_datadir}/X11/rgb.txt
+
+%files lb
+%manifest xorg-x11-xserver-utils.manifest
+%{_libdir}/systemd/user/xset-autorepeat-lb.service
+%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-lb.service
