@@ -1,6 +1,6 @@
 [Unit]
 Description=Load X keyboard modifier maps
-ConditionFileExists=/etc/X11/Xmodmap
+ConditionPathExists=/etc/X11/Xmodmap
 After=xorg.target
 Requires=xorg.target
 Before=e17.service

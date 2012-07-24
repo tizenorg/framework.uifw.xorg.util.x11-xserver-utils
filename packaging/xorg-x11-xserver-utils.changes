@@ -1,3 +1,6 @@
+* Tue Jul 24 2012 Yin Kangkai <kangkai.yin@intel.com>
+- Fix some typo in xrdb and xmodmap services file.
+
 * Thu Jul 19 2012 Patrick McCarty <patrick.mccarty@linux.intel.com> c6c2cac
 - systemd: add service to selectively disable autorepeat
 

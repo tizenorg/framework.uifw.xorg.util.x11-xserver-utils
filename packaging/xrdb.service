@@ -1,6 +1,6 @@
 [Unit]
 Description=Load X Resource database
-ConditionFileExists=/etc/X11/Xresources
+ConditionPathExists=/etc/X11/Xresources
 After=xorg.target
 Requires=xorg.target
 Before=e17.service
