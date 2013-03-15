@@ -3,7 +3,7 @@ Description=Load X Resource database
 ConditionPathExists=/etc/X11/Xresources
 After=xorg.target
 Requires=xorg.target
-Before=e17.service
+Before=e17_early.service
 
 [Service]
 Type=oneshot

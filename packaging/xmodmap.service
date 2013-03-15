@@ -3,7 +3,7 @@ Description=Load X keyboard modifier maps
 ConditionPathExists=/etc/X11/Xmodmap
 After=xorg.target
 Requires=xorg.target
-Before=e17.service
+Before=e17_early.service
 
 [Service]
 Type=oneshot
