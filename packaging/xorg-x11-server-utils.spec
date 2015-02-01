@@ -6,13 +6,12 @@
 
 Summary: X.Org X11 X server utilities
 Name: xorg-x11-server-utils
-Version: 7.5
+Version: 7.5.1
 Release: 12
 License: MIT
 Group: User Interface/X
 URL: http://www.x.org
 Source0: %{name}-%{version}.tar.gz
-Source1: xmodmap.service
 Source2: xrdb.service
 Source3: xset-autorepeat-lb.service
 Source4: xset-autorepeat-i386.service
@@ -29,7 +28,7 @@ BuildRequires: xorg-x11-xutils-dev
 #BuildRequires: pkgconfig(xorg-macros)
 BuildRequires: pkgconfig(xmu) pkgconfig(xext) pkgconfig(xrandr)
 BuildRequires: pkgconfig(xxf86vm) pkgconfig(xrender) pkgconfig(xi)
-BuildRequires: pkgconfig(xt) pkgconfig(xpm)
+BuildRequires: pkgconfig(xt)
 # xsetroot requires xbitmaps-devel (which was renamed now)
 BuildRequires: xorg-x11-xbitmaps
 # xsetroot
@@ -43,7 +42,7 @@ BuildRequires: libXinerama-devel
 # a) universally useful and b) don't require Xaw
 #Conflicts: xorg-x11-apps < 7.6-4
 
-%define DEF_SUBDIRS iceauth rgb sessreg xgamma xhost xkill xmodmap xrandr xrdb xrefresh xset xsetmode xsetpointer xsetroot xstdcmap
+%define DEF_SUBDIRS xkill xrandr xrdb xset
 Provides: %{DEF_SUBDIRS}
 Provides: x11-xserver-utils = %{version}
 
@@ -114,11 +113,9 @@ cp -af COPYING %{buildroot}/usr/share/license/%{name}
 }
 
 mkdir -p %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants
-install -m 0644 %SOURCE1 %{buildroot}%{_libdir}/systemd/user/
 install -m 0644 %SOURCE2 %{buildroot}%{_libdir}/systemd/user/
 install -m 0644 %SOURCE3 %{buildroot}%{_libdir}/systemd/user/
 install -m 0644 %SOURCE4 %{buildroot}%{_libdir}/systemd/user/
-ln -s ../xmodmap.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xmodmap.service
 ln -s ../xrdb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
 ln -s ../xset-autorepeat-lb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-lb.service
 ln -s ../xset-autorepeat-i386.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-i386.service
@@ -129,28 +126,15 @@ ln -s ../xset-autorepeat-i386.service %{buildroot}%{_libdir}/systemd/user/core-e
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%manifest xorg-x11-server-utils.manifest
 %defattr(-,root,root,-)
 /usr/share/license/%{name}
 %doc
-%{_bindir}/iceauth
-%{_bindir}/sessreg
-%{_bindir}/showrgb
-%{_bindir}/xgamma
-%{_bindir}/xhost
 %{_bindir}/xkill
-%{_bindir}/xmodmap
 %{_bindir}/xrandr
 %{_bindir}/xrdb
-%{_bindir}/xrefresh
 %{_bindir}/xset
-%{_bindir}/xsetmode
-%{_bindir}/xsetpointer
-%{_bindir}/xsetroot
-%{_bindir}/xstdcmap
-%{_datadir}/X11/rgb.txt
-%{_libdir}/systemd/user/xmodmap.service
 %{_libdir}/systemd/user/xrdb.service
-%{_libdir}/systemd/user/core-efl.target.wants/xmodmap.service
 %{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
 
 %if %{with_xkeystone}
