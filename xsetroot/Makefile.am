@@ -21,7 +21,8 @@
 
 bin_PROGRAMS = xsetroot
 
-AM_CFLAGS = $(CWARNFLAGS) $(XSETROOT_CFLAGS)
+AM_CFLAGS = $(CWARNFLAGS) $(XSETROOT_CFLAGS) -fPIE
+AM_LDFLAGS = $(XSETROOT_LDFLAGS) -pie
 xsetroot_LDADD = $(XSETROOT_LIBS)
 
 xsetroot_SOURCES =	\
@@ -35,7 +36,7 @@ appmandir = $(APP_MAN_DIR)
 
 appman_DATA = $(appman_PRE:man=@APP_MAN_SUFFIX@)
 
-EXTRA_DIST = $(appman_PRE) 
+EXTRA_DIST = $(appman_PRE)
 MAINTAINERCLEANFILES = ChangeLog INSTALL
 CLEANFILES = $(appman_DATA)
 

@@ -21,7 +21,8 @@
 
 bin_PROGRAMS = xsetpointer
 
-xsetpointer_CFLAGS = $(XSETPOINTER_CFLAGS)
+xsetpointer_CFLAGS = $(XSETPOINTER_CFLAGS) -fPIE
+xsetpointer_LDFLAGS = $(XSETPOINTER_LDFLAGS) -pie
 xsetpointer_LDADD = $(XSETPOINTER_LIBS)
 
 xsetpointer_SOURCES =	\

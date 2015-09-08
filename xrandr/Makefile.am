@@ -31,7 +31,8 @@ xkeystone: keystone.5c
 clean-local:
 	rm -f xkeystone
 
-AM_CFLAGS = $(XRANDR_CFLAGS) $(CWARNFLAGS)
+AM_CFLAGS = $(XRANDR_CFLAGS) $(CWARNFLAGS) -fPIE
+AM_LDFLAGS = $(XRANDR_LDFLAGS) -pie
 xrandr_LDADD = $(XRANDR_LIBS)
 
 xrandr_SOURCES =	\

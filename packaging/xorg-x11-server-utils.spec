@@ -1,4 +1,4 @@
-%define _unpackaged_files_terminate_build 0 
+%define _unpackaged_files_terminate_build 0
 
 %define pkgname server-utils
 # doesn't work yet, needs more nickle bindings
@@ -6,12 +6,15 @@
 
 Summary: X.Org X11 X server utilities
 Name: xorg-x11-server-utils
-Version: 7.5
+Version: 7.5.1
 Release: 12
 License: MIT
 Group: User Interface/X
 URL: http://www.x.org
-Source: %{name}-%{version}.tar.gz
+Source0: %{name}-%{version}.tar.gz
+Source2: xrdb.service
+Source3: xset-autorepeat-lb.service
+Source4: xset-autorepeat-i386.service
 
 # NOTE: Each upstream tarball has its own "PatchN" section, taken from
 # multiplying the "SourceN" line times 100.  Please keep them in this
@@ -19,13 +22,13 @@ Source: %{name}-%{version}.tar.gz
 # so that they don't have to be split in half when submitting upstream.
 #
 # iceauth section
-#Patch0: 
+#Patch0:
 
 BuildRequires: xorg-x11-xutils-dev
 #BuildRequires: pkgconfig(xorg-macros)
 BuildRequires: pkgconfig(xmu) pkgconfig(xext) pkgconfig(xrandr)
 BuildRequires: pkgconfig(xxf86vm) pkgconfig(xrender) pkgconfig(xi)
-BuildRequires: pkgconfig(xt) pkgconfig(xpm)
+BuildRequires: pkgconfig(xt)
 # xsetroot requires xbitmaps-devel (which was renamed now)
 BuildRequires: xorg-x11-xbitmaps
 # xsetroot
@@ -39,8 +42,9 @@ BuildRequires: libXinerama-devel
 # a) universally useful and b) don't require Xaw
 #Conflicts: xorg-x11-apps < 7.6-4
 
-%define DEF_SUBDIRS iceauth rgb sessreg xgamma xhost xkill xmodmap xrandr xrdb xrefresh xset xsetmode xsetpointer xsetroot xstdcmap
+%define DEF_SUBDIRS xkill xrandr xrdb xset
 Provides: %{DEF_SUBDIRS}
+Provides: x11-xserver-utils = %{version}
 
 %description
 A collection of utilities used to tweak and query the runtime configuration
@@ -56,25 +60,49 @@ Requires: nickle
 Utility to perform keystone adjustments on X screens.
 %endif
 
+%package lb
+Summary:        Device-specific files for Lunchbox
+Group:          User Interface/X
+Requires:       %{name} = %{version}
+Provides:       x11-xserver-utils-lb = %{version}
+
+%description lb
+This package provides files for the X server utilities package that are
+specific to Lunchbox devices.
+
+%package i386
+Summary:        Device-specific files for i386
+Group:          User Interface/X
+Requires:       %{name} = %{version}
+Provides:       x11-xserver-utils-i386 = %{version}
+
+%description i386
+This package provides files for the X server utilities package that are
+specific to i386/emulator devices.
+
+
 %prep
 %setup -q
 
 %build
 # Build all apps
+export CFLAGS+=" -D_GNU_SOURCE"
 {
     for app in %{DEF_SUBDIRS}; do
         pushd $app
-        %configure \
+        %reconfigure \
             --disable-xprint \
             RSH=rsh \
             MANCONF="/etc/manpath.config"
-	make
+        make
         popd
     done
 }
 
 %install
 rm -rf $RPM_BUILD_ROOT
+mkdir -p %{buildroot}/usr/share/license
+cp -af COPYING %{buildroot}/usr/share/license/%{name}
 # Install all apps
 {
    for app in %{DEF_SUBDIRS} ; do
@@ -84,49 +112,41 @@ rm -rf $RPM_BUILD_ROOT
    done
 }
 
+mkdir -p %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants
+install -m 0644 %SOURCE2 %{buildroot}%{_libdir}/systemd/user/
+install -m 0644 %SOURCE3 %{buildroot}%{_libdir}/systemd/user/
+install -m 0644 %SOURCE4 %{buildroot}%{_libdir}/systemd/user/
+ln -s ../xrdb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
+ln -s ../xset-autorepeat-lb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-lb.service
+ln -s ../xset-autorepeat-i386.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-i386.service
+
 %remove_docs
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%manifest xorg-x11-server-utils.manifest
 %defattr(-,root,root,-)
+/usr/share/license/%{name}
 %doc
-%{_bindir}/iceauth
-%{_bindir}/sessreg
-%{_bindir}/showrgb
-%{_bindir}/xgamma
-%{_bindir}/xhost
 %{_bindir}/xkill
-%{_bindir}/xmodmap
 %{_bindir}/xrandr
 %{_bindir}/xrdb
-%{_bindir}/xrefresh
 %{_bindir}/xset
-%{_bindir}/xsetmode
-%{_bindir}/xsetpointer
-%{_bindir}/xsetroot
-%{_bindir}/xstdcmap
-%{_datadir}/X11/rgb.txt
-#%{_mandir}/man1/iceauth.1*
-#%{_mandir}/man1/sessreg.1*
-#%{_mandir}/man1/showrgb.1*
-#%{_mandir}/man1/xgamma.1*
-#%{_mandir}/man1/xhost.1*
-#%{_mandir}/man1/xinput.1*
-#%{_mandir}/man1/xkill.1*
-#%{_mandir}/man1/xmodmap.1*
-#%{_mandir}/man1/xrandr.1*
-#%{_mandir}/man1/xrdb.1*
-#%{_mandir}/man1/xrefresh.1*
-#%{_mandir}/man1/xset.1*
-#%{_mandir}/man1/xsetmode.1*
-#%{_mandir}/man1/xsetpointer.1*
-#%{_mandir}/man1/xsetroot.1*
-#%{_mandir}/man1/xstdcmap.1*
+%{_libdir}/systemd/user/xrdb.service
+%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
 
 %if %{with_xkeystone}
 %files -n xkeystone
 %defattr(-,root,root,-)
 %{_bindir}/xkeystone
 %endif
+
+%files lb
+%{_libdir}/systemd/user/xset-autorepeat-lb.service
+%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-lb.service
+
+%files i386
+%{_libdir}/systemd/user/xset-autorepeat-i386.service
+%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-i386.service
