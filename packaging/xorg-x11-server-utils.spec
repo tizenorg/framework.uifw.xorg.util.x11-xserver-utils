@@ -6,13 +6,12 @@
 
 Summary: X.Org X11 X server utilities
 Name: xorg-x11-server-utils
-Version: 7.5.1
+Version: 7.5.2
 Release: 12
 License: MIT
 Group: User Interface/X
 URL: http://www.x.org
 Source0: %{name}-%{version}.tar.gz
-Source2: xrdb.service
 Source3: xset-autorepeat-lb.service
 Source4: xset-autorepeat-i386.service
 
@@ -113,10 +112,8 @@ cp -af COPYING %{buildroot}/usr/share/license/%{name}
 }
 
 mkdir -p %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants
-install -m 0644 %SOURCE2 %{buildroot}%{_libdir}/systemd/user/
 install -m 0644 %SOURCE3 %{buildroot}%{_libdir}/systemd/user/
 install -m 0644 %SOURCE4 %{buildroot}%{_libdir}/systemd/user/
-ln -s ../xrdb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
 ln -s ../xset-autorepeat-lb.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-lb.service
 ln -s ../xset-autorepeat-i386.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/xset-autorepeat-i386.service
 
@@ -134,8 +131,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/xrandr
 %{_bindir}/xrdb
 %{_bindir}/xset
-%{_libdir}/systemd/user/xrdb.service
-%{_libdir}/systemd/user/core-efl.target.wants/xrdb.service
 
 %if %{with_xkeystone}
 %files -n xkeystone
